@@ -56,31 +56,62 @@ class Ders {
     }
 }
 
+class Ogrenci {
+    int ogrenci_numarasi;
+    String isim;
+    String soyisim;
+    int bolum;
+    List<String> alinan_dersler;
+
+    public Ogrenci(int ogrenci_numarasi, String isim, String soyisim) {
+        this.ogrenci_numarasi = ogrenci_numarasi;
+        this.isim = isim;
+        this.soyisim = soyisim;
+        this.bolum = bolum;
+        this.alinan_dersler = new ArrayList<>();
+    }
+}
+
 
 public class OgrenciBilgiSistemi {
-    static class Ogrenci {
-        int ogrenci_numarasi;
-        String isim;
-        String soyisim;
-        int bolum;
-        List<String> alinan_dersler;
 
-        public Ogrenci(int ogrenci_numarasi, String isim, String soyisim) {
-            this.ogrenci_numarasi = ogrenci_numarasi;
-            this.isim = isim;
-            this.soyisim = soyisim;
+    static class OgrenciSene1 extends Ogrenci {
+        String bolum;
+
+        public OgrenciSene1(int ogrenci_numarasi, String isim, String soyisim, String bolum) {
+            super(ogrenci_numarasi, isim, soyisim);
             this.bolum = bolum;
-            this.alinan_dersler = new ArrayList<>();
+        }
+
+        void seneMetodu() {
+            System.out.println("Sene1 Metodu Çalıştı");
         }
     }
 
-    static class DersEklemeCikarma {
+    static class OgrenciSene2 extends Ogrenci {
+        String bolum;
+
+        public OgrenciSene2(int ogrenci_numarasi, String isim, String soyisim, String bolum) {
+            super(ogrenci_numarasi, isim, soyisim);
+            this.bolum = bolum;
+        }
+
+        void seneMetodu() {
+            System.out.println("Sene2 Metodu Çalıştı");
+        }
+    }
+
+    static class OgrenciTanimla {
         Map<Integer, Ders> dersler;
         Map<Integer, Ogrenci> ogrenciler;
 
-        public DersEklemeCikarma() {
+        public OgrenciTanimla() {
             this.dersler = new HashMap<>();
             this.ogrenciler = new HashMap<>();
+
+            // Ogrencileri Tanımla
+            ogrenciTanimlaSene1();
+            ogrenciTanimlaSene2();
 
             // Dersleri tanımla
             Yazilim yazilimDersleri = new Yazilim();
@@ -93,10 +124,20 @@ public class OgrenciBilgiSistemi {
                 dersler.put(ders.ders_kodu, ders);
             }
 
-            // Öğrencileri tanımla
-            ogrenci_ekle(1, "Eren", "Özcan", 1);
-            ogrenci_ekle(2, "Yiğit", "Geldi", 1);
-            // Diğer öğrencileri ekle...
+        }
+        private void ogrenciEkle(Ogrenci ogrenci) {
+            ogrenciler.put(ogrenci.ogrenci_numarasi, ogrenci);
+        }
+
+        private void ogrenciTanimlaSene1() {
+            ogrenciEkle(new OgrenciSene1(1, "Eren", "Özcan", "Bilgisayar Mühendisliği"));
+            ogrenciEkle(new OgrenciSene1(2, "Onur", "Malay", "Makine Mühendisliği"));
+            ogrenciEkle(new OgrenciSene1(3, "Tuğba", "Çelikten", "Kimya Mühendisliği"));
+        }
+
+        private void ogrenciTanimlaSene2() {
+            ogrenciEkle(new OgrenciSene2(4, "Yiğit", "Geldi", "Elektrik Mühendisliği"));
+            ogrenciEkle(new OgrenciSene2(5, "Osman", "Güzel", "Endüstri Mühendisliği"));
         }
 
         public void ogrenci_ekle(int ogrenci_numarasi, String isim, String soyisim,  int bolum) {
@@ -151,19 +192,25 @@ public class OgrenciBilgiSistemi {
 
     public static void main(String[] args) {
 
-        DersEklemeCikarma dersEklemeCikarma = new DersEklemeCikarma();
+        OgrenciTanimla dersEklemeCikarma = new OgrenciTanimla();
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
             // Kullanıcı girişi
+            // bu kısımda ogrenci numarası ile dersleri eşleştirmek için ogrencisene1 deki ogrencileri yazılım dersleri ile
+            // ogrencisene2 dekileri mekatronikle eşleştiriyorum deneme amaçlı
             System.out.print("Öğrenci numarasını giriniz: ");
             int ogrenci_numarasi = scanner.nextInt();
+            if (ogrenci_numarasi <= 3){
+                int bolum = 1;
+                dersEklemeCikarma.DersListesiniGoruntule(bolum);
+            }
+            //şu 2 metod ders listesini gösteriyor
+            else {
+                int bolum = 2;
+                dersEklemeCikarma.DersListesiniGoruntule(bolum);
+            }
 
-            System.out.print("Hangi bölümde okuyorsunuz? (1 - Yazılım Mühendisliği, 2 - Mekatronik): ");
-            int bolum = scanner.nextInt();
-
-            // Kurs listesini göster
-            dersEklemeCikarma.DersListesiniGoruntule(bolum);
 
             // Kurs seçimi
             System.out.print("Kayıt olmak istediğiniz dersin kodunu giriniz (çıkış için 0 girin): ");
