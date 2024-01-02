@@ -21,6 +21,10 @@ public class OgrenciBilgiSistemi {
             dersEkle(new DersSene2(202, "Gereksinim"));
             dersEkle(new DersSene2(203, "WEB"));
             dersEkle(new DersSene2(204, "İş Sağlığı"));
+
+            dersEkle(new OrtakDersler(11, "Turk Dili"));
+            dersEkle(new OrtakDersler(12, "Yabancı dil"));
+            dersEkle(new OrtakDersler(13, "İnkilap"));
         }
 
         public void dersEkle(Ders ders) {
@@ -28,7 +32,7 @@ public class OgrenciBilgiSistemi {
         }
 
         public void dersListesiniGoruntule(int sene) {
-            System.out.println("Mevcut Dersler:");
+            System.out.println("Alabileceğiniz Dersler:");
             for (Ders ders : dersler.values()) {
                 if (ders.getSene() == sene) {
                     System.out.println(ders.ders_kodu + ": " + ders.ders_ismi + " - Kayıtlı öğrenciler: " + ders.kayit_sayisi);
@@ -36,7 +40,17 @@ public class OgrenciBilgiSistemi {
             }
         }
         public void dersListesiniGoruntule() {
-
+            System.out.println("Ortak Dersler:");
+            for (Ders ders : dersler.values()) {
+                int sene = 0;
+                if (ders.getSene() == sene) {
+                    System.out.println(ders.ders_kodu + ": " + ders.ders_ismi + " - Kayıtlı öğrenciler: " + ders.kayit_sayisi);
+                }
+            }
+        }
+        public void dersListesiniGoruntule(double y){
+            System.out.println("parametreli çalıştı");
+            System.out.println(y);
         }
     }
 
@@ -101,6 +115,30 @@ public class OgrenciBilgiSistemi {
         OgrenciTanimla ogrenciTanimla = new OgrenciTanimla();
         DersOgrenciEslestirme dersOgrenciEslestirme = new DersOgrenciEslestirme(ogrenciTanimla.ogrenciler, dersTanimla);
 
+        while (true){
+            System.out.println("Ortak Dersleri Görüntülemek için 1'i " +
+                    "Seçmeli Dersleri Görüntülemek için 2'yi " +
+                    "Sisteme giriş yapmak için 0 giriniz");
+            int x = scanner.nextInt();
+            switch (x) {
+                case 1:
+                    dersTanimla.dersListesiniGoruntule();
+                    break;
+                case 2:
+                    double y = 2;
+                    dersTanimla.dersListesiniGoruntule(y);
+                    break;
+                case 0:
+                    break;
+                default:
+                    System.out.println("lütfen geçerli bir seçeneği seçin");
+                    break;
+            }
+            if (x == 0) {
+                break; // Birinci döngüden çıkış
+            }
+        }
+
         while (true) {
             try {
                 System.out.print("Öğrenci numarası giriniz: ");
@@ -113,7 +151,7 @@ public class OgrenciBilgiSistemi {
                     System.out.println("Şifrenizi giriniz: ");
                     String girilenSifre = scanner.nextLine();
                     if (girilenSifre.equals(ogrenci.Sifre)) {
-                        System.out.println("Giriş başarılı");
+                        System.out.println("Giriş başarılı. Alabileceğiniz dersler aşşağıda listelenmiştir");
 
                         // Kurs listesini göster
                         dersTanimla.dersListesiniGoruntule(ogrenciTanimla.ogrenciler.get(ogrenci_numarasi).getSene());

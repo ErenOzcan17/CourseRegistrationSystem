@@ -33,3 +33,12 @@ class DersSene2 extends Ders {
         return 2;
     }
 }
+class OrtakDersler extends Ders {
+    public OrtakDersler (int ders_kodu, String ders_ismi) {
+        super(ders_kodu, ders_ismi);
+    }
+    @Override
+    int getSene() {
+        return 0;
+    }
+}
