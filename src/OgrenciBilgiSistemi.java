@@ -1,4 +1,5 @@
 import java.util.HashMap;
+import java.util.InputMismatchException;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -105,23 +106,28 @@ public class OgrenciBilgiSistemi {
         DersOgrenciEslestirme dersOgrenciEslestirme = new DersOgrenciEslestirme(ogrenciTanimla.ogrenciler, dersTanimla);
 
         while (true) {
-            // Kullanıcı girişi
-            System.out.print("Öğrenci numarası giriniz: ");
-            int ogrenci_numarasi = scanner.nextInt();
+            try {
+                // Kullanıcı girişi
+                System.out.print("Öğrenci numarası giriniz: ");
+                int ogrenci_numarasi = scanner.nextInt();
 
-            // Kurs listesini göster
-            dersTanimla.dersListesiniGoruntule(ogrenciTanimla.ogrenciler.get(ogrenci_numarasi).getSene());
+                // Kurs listesini göster
+                dersTanimla.dersListesiniGoruntule(ogrenciTanimla.ogrenciler.get(ogrenci_numarasi).getSene());
 
-            // Kurs seçimi
-            System.out.print("Kayıt olmak istediğiniz dersin kodunu giriniz (çıkış için 0 girin): ");
-            int ders_kodu = scanner.nextInt();
+                // Kurs seçimi
+                System.out.print("Kayıt olmak istediğiniz dersin kodunu giriniz (çıkış için 0 girin): ");
+                int ders_kodu = scanner.nextInt();
 
-            if (ders_kodu == 0) {
-                break;
+                if (ders_kodu == 0) {
+                    break;
+                }
+
+                // Öğrenciyi kursa kaydet
+                dersOgrenciEslestirme.ogrencininDersiniAldigiMetod(ogrenci_numarasi, ders_kodu);
+            } catch (InputMismatchException e) {
+                System.out.println("Geçersiz giriş. Lütfen bir tam sayı girin.");
+                scanner.nextLine(); // Clear the input buffer
             }
-
-            // Öğrenciyi kursa kaydet
-            dersOgrenciEslestirme.ogrencininDersiniAldigiMetod(ogrenci_numarasi, ders_kodu);
         }
 
         // İstatistikleri göster
