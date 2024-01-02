@@ -25,6 +25,10 @@ public class OgrenciBilgiSistemi {
             dersEkle(new OrtakDersler(11, "Turk Dili"));
             dersEkle(new OrtakDersler(12, "Yabancı dil"));
             dersEkle(new OrtakDersler(13, "İnkilap"));
+
+            dersEkle(new secmeliDersler(21, "Python Programlama"));
+            dersEkle(new secmeliDersler(22, "Servis Odaklı Mimari"));
+            dersEkle(new secmeliDersler(23, "İleri Web Programlama"));
         }
 
         public void dersEkle(Ders ders) {
@@ -49,8 +53,13 @@ public class OgrenciBilgiSistemi {
             }
         }
         public void dersListesiniGoruntule(double y){
-            System.out.println("parametreli çalıştı");
-            System.out.println(y);
+            System.out.println("Seçmeli Dersler:");
+            for (Ders ders : dersler.values()) {
+                int sene = 3;
+                if (ders.getSene() == sene) {
+                    System.out.println(ders.ders_kodu + ": " + ders.ders_ismi + " - Kayıtlı öğrenciler: " + ders.kayit_sayisi);
+                }
+            }
         }
     }
 

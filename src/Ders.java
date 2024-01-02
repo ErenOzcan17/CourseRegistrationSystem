@@ -42,3 +42,13 @@ class OrtakDersler extends Ders {
         return 0;
     }
 }
+class secmeliDersler extends Ders {
+    public secmeliDersler(int ders_kodu, String ders_ismi) {
+        super(ders_kodu, ders_ismi);
+    }
+
+    @Override
+    int getSene() {
+        return 3;
+    }
+}
