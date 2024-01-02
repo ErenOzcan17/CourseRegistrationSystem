@@ -2,21 +2,21 @@ abstract class Ogrenci {
     int ogrenci_numarasi;
     String isim;
     String soyisim;
-    String bolum;
+    String Sifre;
 
-    public Ogrenci(int ogrenci_numarasi, String isim, String soyisim, String bolum) {
+    public Ogrenci(int ogrenci_numarasi, String isim, String soyisim, String Sifre) {
         this.ogrenci_numarasi = ogrenci_numarasi;
         this.isim = isim;
         this.soyisim = soyisim;
-        this.bolum = bolum;
+        this.Sifre = Sifre;
     }
 
     abstract int getSene();
 }
 
 class OgrenciSene1 extends Ogrenci {
-    public OgrenciSene1(int ogrenci_numarasi, String isim, String soyisim, String bolum) {
-        super(ogrenci_numarasi, isim, soyisim, bolum);
+    public OgrenciSene1(int ogrenci_numarasi, String isim, String soyisim, String Sifre) {
+        super(ogrenci_numarasi, isim, soyisim, Sifre);
     }
 
     @Override
@@ -25,8 +25,8 @@ class OgrenciSene1 extends Ogrenci {
     }
 }
 class OgrenciSene2 extends Ogrenci {
-    public OgrenciSene2(int ogrenci_numarasi, String isim, String soyisim, String bolum) {
-        super(ogrenci_numarasi, isim, soyisim, bolum);
+    public OgrenciSene2(int ogrenci_numarasi, String isim, String soyisim, String Sifre) {
+        super(ogrenci_numarasi, isim, soyisim, Sifre);
     }
 
     @Override

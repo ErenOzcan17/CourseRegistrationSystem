@@ -35,6 +35,9 @@ public class OgrenciBilgiSistemi {
                 }
             }
         }
+        public void dersListesiniGoruntule() {
+
+        }
     }
 
     static class OgrenciTanimla {
@@ -43,7 +46,7 @@ public class OgrenciBilgiSistemi {
         public OgrenciTanimla() {
             this.ogrenciler = new HashMap<>();
             // Öğrencileri başlangıçta tanımla
-            ogrenciEkle(new OgrenciSene1(1, "Eren", "Özcan", "Bilgisayar Mühendisliği"));
+            ogrenciEkle(new OgrenciSene1(1, "Eren", "Özcan", "Bilgisayar"));
             ogrenciEkle(new OgrenciSene1(3, "Onur", "Malay", "Makine Mühendisliği"));
             ogrenciEkle(new OgrenciSene1(5, "Tuğba", "Çelikten", "Kimya Mühendisliği"));
 
@@ -51,16 +54,9 @@ public class OgrenciBilgiSistemi {
             ogrenciEkle(new OgrenciSene2(4, "Osman", "Güzel", "Endüstri Mühendisliği"));
         }
 
+        //bu metod ogreniyi hashmapin oğrenciler kısmına kaydediyor
         public void ogrenciEkle(Ogrenci ogrenci) {
             ogrenciler.put(ogrenci.ogrenci_numarasi, ogrenci);
-        }
-
-        public void ogrenciListesiniGoruntule() {
-            System.out.println("Mevcut Öğrenciler:");
-            for (Ogrenci ogrenci : ogrenciler.values()) {
-                System.out.println(ogrenci.ogrenci_numarasi + ": " + ogrenci.isim + " " + ogrenci.soyisim +
-                        " - Sene: " + ogrenci.getSene());
-            }
         }
     }
 
@@ -83,7 +79,7 @@ public class OgrenciBilgiSistemi {
 
                 System.out.println(ogrenci.isim + " başarı ile " + ders.ders_ismi + "'e kaydolmuştur");
             } else {
-                System.out.println("Geçersiz öğrenci ya da ders kodu");
+                System.out.println("Geçersiz ders kodu");
             }
         }
     }
@@ -107,26 +103,40 @@ public class OgrenciBilgiSistemi {
 
         while (true) {
             try {
-                // Kullanıcı girişi
                 System.out.print("Öğrenci numarası giriniz: ");
                 int ogrenci_numarasi = scanner.nextInt();
+                // bu komut boş satırı okur. eğer boş satır okunmazsa boşluk kalır ve şifre ile birlikte okunup yanlış değer girmeye sebep olur
+                scanner.nextLine();
+                // Şifre kontrolü
+                if (ogrenciTanimla.ogrenciler.containsKey(ogrenci_numarasi)) {
+                    Ogrenci ogrenci = ogrenciTanimla.ogrenciler.get(ogrenci_numarasi);
+                    System.out.println("Şifrenizi giriniz: ");
+                    String girilenSifre = scanner.nextLine();
+                    if (girilenSifre.equals(ogrenci.Sifre)) {
+                        System.out.println("Giriş başarılı");
 
-                // Kurs listesini göster
-                dersTanimla.dersListesiniGoruntule(ogrenciTanimla.ogrenciler.get(ogrenci_numarasi).getSene());
+                        // Kurs listesini göster
+                        dersTanimla.dersListesiniGoruntule(ogrenciTanimla.ogrenciler.get(ogrenci_numarasi).getSene());
 
-                // Kurs seçimi
-                System.out.print("Kayıt olmak istediğiniz dersin kodunu giriniz (çıkış için 0 girin): ");
-                int ders_kodu = scanner.nextInt();
+                        // Kurs seçimi
+                        System.out.print("Kayıt olmak istediğiniz dersin kodunu giriniz (çıkış için 0 girin): ");
+                        int ders_kodu = scanner.nextInt();
 
-                if (ders_kodu == 0) {
-                    break;
+                        if (ders_kodu == 0) {
+                            break;
+                        }
+
+                        // Öğrenciyi kursa kaydet
+                        dersOgrenciEslestirme.ogrencininDersiniAldigiMetod(ogrenci_numarasi, ders_kodu);
+                    } else {
+                        System.out.println("Yanlış şifre");
+                    }
+                } else {
+                    System.out.println("Geçersiz öğrenci numarası");
                 }
-
-                // Öğrenciyi kursa kaydet
-                dersOgrenciEslestirme.ogrencininDersiniAldigiMetod(ogrenci_numarasi, ders_kodu);
             } catch (InputMismatchException e) {
                 System.out.println("Geçersiz giriş. Lütfen bir tam sayı girin.");
-                scanner.nextLine(); // Clear the input buffer
+                scanner.nextLine();
             }
         }
 
