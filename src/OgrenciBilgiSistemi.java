@@ -143,6 +143,8 @@ public class OgrenciBilgiSistemi {
             try {
                 System.out.print("Öğrenci numarası giriniz: ");
                 int ogrenci_numarasi = scanner.nextInt();
+                //Todo: if-else döngü oluşturulacak 0 girildiğinde döngüden çıkacak
+
                 // bu komut boş satırı okur. eğer boş satır okunmazsa boşluk kalır ve şifre ile birlikte okunup yanlış değer girmeye sebep olur
                 scanner.nextLine();
                 // Şifre kontrolü
