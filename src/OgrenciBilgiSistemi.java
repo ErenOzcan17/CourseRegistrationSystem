@@ -110,7 +110,7 @@ public class OgrenciBilgiSistemi {
     static class DigerMainMetodislemleri {
         static DersTanimla dersTanimla;
 
-        public static void istatistikleriGoruntule() {
+        public static void istatistikleriGoruntule(DersTanimla dersTanimla) {
             System.out.println("Ders kayıt durumu");
             for (Ders ders : dersTanimla.dersler.values()) {
                 System.out.println(ders.ders_ismi + " - Kayıtlı öğrenci sayısı " + ders.kayit_sayisi);
@@ -144,16 +144,18 @@ public class OgrenciBilgiSistemi {
                     break;
             }
             if (x == 0) {
-                break; // Birinci döngüden çıkış
+                break;
             }
         }
 
         while (true) {
             try {
-                System.out.print("Öğrenci numarası giriniz: ");
+                System.out.print("Öğrenci numarası giriniz(Çıkış Yapmak İçin 0 Girin): ");
                 int ogrenci_numarasi = scanner.nextInt();
                 //Todo: if-else döngü oluşturulacak 0 girildiğinde döngüden çıkacak
-
+                if (ogrenci_numarasi == 0) {
+                    break;
+                }
                 // bu komut boş satırı okur. eğer boş satır okunmazsa boşluk kalır ve şifre ile birlikte okunup yanlış değer girmeye sebep olur
                 scanner.nextLine();
                 // Şifre kontrolü
@@ -190,6 +192,6 @@ public class OgrenciBilgiSistemi {
         }
 
         // İstatistikleri göster
-        DigerMainMetodislemleri.istatistikleriGoruntule();
+        DigerMainMetodislemleri.istatistikleriGoruntule(dersTanimla);
     }
 }
