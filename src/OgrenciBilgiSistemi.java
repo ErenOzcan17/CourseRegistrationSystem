@@ -55,8 +55,7 @@ public class OgrenciBilgiSistemi {
         public void dersListesiniGoruntule(double y){
             System.out.println("Seçmeli Dersler:");
             for (Ders ders : dersler.values()) {
-                int sene = 3;
-                if (ders.getSene() == sene) {
+                if (ders.getSene() == y) {
                     System.out.println(ders.ders_kodu + ": " + ders.ders_ismi + " - Kayıtlı öğrenciler: " + ders.kayit_sayisi);
                 }
             }
@@ -92,7 +91,7 @@ public class OgrenciBilgiSistemi {
             this.dersTanimla = dersTanimla;
         }
 
-        public void ogrencininDersiniAldigiMetod(int ogrenci_numarasi, int ders_kodu) {
+        public void ogrencininDersiAldigiMetod(int ogrenci_numarasi, int ders_kodu) {
             if (ogrenciler.containsKey(ogrenci_numarasi) && dersTanimla.dersler.containsKey(ders_kodu)) {
                 Ogrenci ogrenci = ogrenciler.get(ogrenci_numarasi);
                 Ders ders = dersTanimla.dersler.get(ders_kodu);
@@ -123,17 +122,18 @@ public class OgrenciBilgiSistemi {
         OgrenciTanimla ogrenciTanimla = new OgrenciTanimla();
         DersOgrenciEslestirme dersOgrenciEslestirme = new DersOgrenciEslestirme(ogrenciTanimla.ogrenciler, dersTanimla);
 
+        // giriş ekranındaki menü döngüsü
         while (true){
-            System.out.println("Ortak Dersleri Görüntülemek için 1'i " +
-                    "Seçmeli Dersleri Görüntülemek için 2'yi " +
-                    "Sisteme giriş yapmak için 0 giriniz");
+            System.out.println("Ortak Dersleri Görüntülemek için 1'i ");
+            System.out.println("Seçmeli Dersleri Görüntülemek için 2'yi ");
+            System.out.println("Sisteme giriş yapmak için 0 giriniz:");
             int x = scanner.nextInt();
             switch (x) {
                 case 1:
                     dersTanimla.dersListesiniGoruntule();
                     break;
                 case 2:
-                    double y = 2;
+                    double y = 3;
                     dersTanimla.dersListesiniGoruntule(y);
                     break;
                 case 0:
@@ -147,50 +147,66 @@ public class OgrenciBilgiSistemi {
             }
         }
 
+        //öğrenci girişinden sonra gerçekleştirilen işlemlerin döngüsü
         while (true) {
+            //Exception 1
             try {
                 System.out.print("Öğrenci numarası giriniz(Çıkış Yapmak İçin 0 Girin): ");
                 int ogrenci_numarasi = scanner.nextInt();
-                //Todo: if-else döngü oluşturulacak 0 girildiğinde döngüden çıkacak
                 if (ogrenci_numarasi == 0) {
                     break;
                 }
-                // bu komut boş satırı okur. eğer boş satır okunmazsa boşluk kalır ve şifre ile birlikte okunup yanlış değer girmeye sebep olur
+
+                // Boş satırı oku
                 scanner.nextLine();
-                // Şifre kontrolü
+
+                // Öğrenci bilgilerini çekme
                 if (ogrenciTanimla.ogrenciler.containsKey(ogrenci_numarasi)) {
                     Ogrenci ogrenci = ogrenciTanimla.ogrenciler.get(ogrenci_numarasi);
+
+                    // Şifre kontrolü
                     System.out.println("Şifrenizi giriniz: ");
                     String girilenSifre = scanner.nextLine();
-                    if (girilenSifre.equals(ogrenci.Sifre)) {
-                        System.out.println("Giriş başarılı. Alabileceğiniz dersler aşşağıda listelenmiştir");
 
-                        // Kurs listesini göster
-                        dersTanimla.dersListesiniGoruntule(ogrenciTanimla.ogrenciler.get(ogrenci_numarasi).getSene());
-
-                        // Kurs seçimi
-                        System.out.print("Kayıt olmak istediğiniz dersin kodunu giriniz (çıkış için 0 girin): ");
-                        int ders_kodu = scanner.nextInt();
-
-                        if (ders_kodu == 0) {
-                            break;
-                        }
-
-                        // Öğrenciyi kursa kaydet
-                        dersOgrenciEslestirme.ogrencininDersiniAldigiMetod(ogrenci_numarasi, ders_kodu);
-                    } else {
-                        System.out.println("Yanlış şifre");
+                    if (girilenSifre.length() < 5) {
+                        //Exception 2
+                        throw new SifreUzunlukException("Şifre en az 5 karakter uzunluğunda olmalıdır.");
                     }
-                } else {
+                    else {
+                        if (girilenSifre.equals(ogrenci.Sifre)) {
+                            System.out.println("Giriş başarılı. Alabileceğiniz dersler aşağıda listelenmiştir");
+
+                            // öğrencinin alabileceği ders listesini göster
+                            dersTanimla.dersListesiniGoruntule(ogrenciTanimla.ogrenciler.get(ogrenci_numarasi).getSene());
+
+                            // ders seçimi
+                            System.out.print("Kayıt olmak istediğiniz dersin kodunu giriniz (çıkış için 0 girin): ");
+                            int ders_kodu = scanner.nextInt();
+
+                            if (ders_kodu == 0) {
+                                break;
+                            }
+
+                            // Öğrenciyi ders ile eşleştirme
+                            dersOgrenciEslestirme.ogrencininDersiAldigiMetod(ogrenci_numarasi, ders_kodu);
+                        }
+                        else {
+                            System.out.println("Yanlış şifre");
+                        }
+                    }
+                }
+                else {
                     System.out.println("Geçersiz öğrenci numarası");
                 }
+            } catch (SifreUzunlukException e) {
+                System.out.println("Hata: " + e.getMessage());
             } catch (InputMismatchException e) {
                 System.out.println("Geçersiz giriş. Lütfen bir tam sayı girin.");
                 scanner.nextLine();
             }
         }
 
-        // İstatistikleri göster
+        // hangi dersi kaç öğrencinin aldıüını göster
         DigerMainMetodislemleri.istatistikleriGoruntule(dersTanimla);
     }
 }

@@ -34,3 +34,8 @@ class OgrenciSene2 extends Ogrenci {
         return 2;
     }
 }
+class SifreUzunlukException extends Exception {
+    public SifreUzunlukException(String message) {
+        super(message);
+    }
+}
