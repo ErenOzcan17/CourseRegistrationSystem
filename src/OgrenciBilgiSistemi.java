@@ -108,7 +108,6 @@ public class OgrenciBilgiSistemi {
     }
 
     static class DigerMainMetodislemleri {
-        static DersTanimla dersTanimla;
 
         public static void istatistikleriGoruntule(DersTanimla dersTanimla) {
             System.out.println("Ders kayıt durumu");
